@@ -1,4 +1,4 @@
-The Classic "Hello World" TODO Application.
+The Classic "Hello World" TODO Application for 3 Tier Web Architecture Demo Purpose.
 
 The front-end of the application is in jquery/HTML.
 The rest apis the front-end interacts with is a node/express application with mysql as the database.
