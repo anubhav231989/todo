@@ -1,0 +1,130 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Classic TODO Application">
+    <meta name="author" content="Anubhav Sidhu">
+    <title>Classic TODO App</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://getbootstrap.com/docs/4.4/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      html,
+        body {
+        height: 100%;
+        }
+
+        body {
+        padding-top: 40px;
+        background-color: #f5f5f5;
+        }
+
+        .form-signin {
+        width: 100%;
+        max-width: 500px;
+        padding: 15px;
+        margin: auto;
+        }
+        .form-signin .checkbox {
+        font-weight: 400;
+        }
+        .form-signin .form-control:focus {
+        z-index: 2;
+        }
+        .form-signin input[type="text"] {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+        }
+    </style>
+  </head>
+  <body class="text-center" onload="bind();">
+    <form class="form-signin">
+      <h1 class="h3 mb-3 font-weight-normal">TO-DOs</h1>
+      <p class="font-italic">The Classic "Hello World" Application.</p>
+      <label for="inputTodo" class="sr-only">item</label>
+      <input type="text" id="inputTodo" class="form-control" placeholder="e.g  Read the 3 tier web architecture article" required autofocus>
+      <br>
+      <button class="btn btn-lg btn-primary btn-block" type="submit" onClick="note_down();return false;">Note Down</button>
+      <hr>
+      <ul id="todoTable" class="list-group list-group-flush">
+        <li class='list-group-item'>NOTHING HERE.</li>
+      </ul>
+      <hr>
+      <p class="mt-5 mb-3 text-muted">&copy; anubhav</p>
+    </form>
+<script type="text/javascript">
+    function bind(){
+
+        $.ajax({
+          url: "http://localhost:3000/api/v1/todos/",
+          type: 'GET',
+          dataType: 'json',
+          success: function(res) {
+              const data_length = res.length;
+              const todoTableElement = $("#todoTable");
+              if(data_length === 0){
+                return;
+              }
+              $("#todoTable").empty();
+              $("#inputTodo").val("");
+              for(var i=0; i<data_length; i++){
+                  
+                  let li_data = res[i];
+                  if(li_data["completed"]){
+                    var li_html = "<li id='todos-"+ li_data['id'] +"' class='list-group-item'><strike>"+ li_data['title'] +"</strike></li>";
+                  }else{
+                    var li_html = "<li id='todos-"+ li_data['id'] +"' class='list-group-item'>"+ li_data['title'] +"   <span id='todos-span-"+ li_data['id'] +"' class='badge badge-danger badge-pill'><button class='btn-danger' onClick='mark_complete("+ li_data['id'] +");return false;'>X</button></span></li>";
+                  }
+                  todoTableElement.append(li_html);
+
+              }
+          }
+        });
+
+    }
+
+    function mark_complete(id){
+      $.ajax({
+          url: "http://localhost:3000/api/v1/todo/update/"+id,
+          type: 'POST',
+          data: {},
+          dataType: 'json',
+          success: function(res) {
+              bind();
+          }
+        });
+    }
+
+    function note_down(){
+      $.ajax({
+          url: "http://localhost:3000/api/v1/todo",
+          type: 'POST',
+          data: {"title": $("#inputTodo").val()},
+          dataType: 'json',
+          success: function(res) {
+                  bind();
+          }
+        });
+    }
+</script>
+
+</body>
+</html>
