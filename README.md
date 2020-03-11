@@ -1,6 +1,5 @@
 # The Classic TODO Application for 3 Tier Web Architecture Demo Purpose.
 
----
 
 The front-end of the application is in jquery/HTML.
 The rest apis the front-end interacts with is a node/express application with mysql as the database.
@@ -12,7 +11,6 @@ The rest apis the front-end interacts with is a node/express application with my
 
 ## npm install on root directory.
 
---
 
 To run the front-end just serve the index.html file in the "frontend" via any http server.
 For example using simple http server in python3,
