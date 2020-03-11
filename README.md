@@ -4,7 +4,7 @@
 The front-end of the application is in jquery/HTML.
 The rest apis the front-end interacts with is a node/express application with mysql as the database.
 
-## Following prerequisites are needed to run this project:
+## Following pre requisites are needed to run this project:
     - node.
     - mysql server.
     - python3 (just to serve the index.html, any other simple web server would also do.)
